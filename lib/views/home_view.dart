@@ -1,46 +1,10 @@
-import 'dart:async';
-
-import 'package:doity_test/shared/models/speakers_model.dart';
-import 'package:doity_test/shared/services/api_service.dart';
-import 'package:doity_test/views/widgets/app_progress_indicator.dart';
 import 'package:doity_test/views/widgets/app_title.dart';
-import 'package:doity_test/views/widgets/home/partners_presentation.dart';
-import 'package:doity_test/views/widgets/home/schedules_cards.dart';
+import 'package:doity_test/views/widgets/home_widgets/partners_presentation.dart';
+import 'package:doity_test/views/widgets/home_widgets/schedules_cards.dart';
 import 'package:flutter/material.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  late final List<dynamic> dataList;
-  final _streamController = StreamController<List<dynamic>>();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _streamController.close();
-  }
-
-  _loadData() async {
-    /*dataList = await ApiService.instance
-        .fetchAll<SchedulesModel>(EndpointsEnum.schedules);*/
-    //dataList = await ApiService.instance.fetchAllContents();
-    //dataList = await ApiService.instance.fetchAllNotifications();
-    //dataList = await ApiService.instance.fetchAllPartners();
-    dataList = await ApiService.instance.fetchAllSpeakers();
-    //dataList = await ApiService.instance.fetchAllSchedules();
-    _streamController.add(dataList);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +14,12 @@ class _HomeViewState extends State<HomeView> {
         centerTitle: true,
         title: const AppTitle(),
       ),
-      body: _body(),
+      body: _body(context),
       bottomNavigationBar: const PartnersPresentation(),
     );
   }
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(16.0),
@@ -71,33 +35,13 @@ class _HomeViewState extends State<HomeView> {
             const Divider(),
             Flexible(
               flex: 2,
-              child: StreamBuilder(
-                  stream: _streamController.stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('Erro!!'),
-                      );
-                    }
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: AppProgressIndicator(),
-                      );
-                    } else {
-                      final speakers = snapshot.data as List<SpeakersModel>;
-                      debugPrint('---------> SIZE: ${speakers.length}');
-                      return ListView.builder(
-                          itemCount: speakers.length,
-                          itemBuilder: (context, index) {
-                            var speaker = speakers[index];
-
-                            return ListTile(
-                              title: Text(speaker.company!),
-                              subtitle: Text(speaker.order.toString()),
-                            );
-                          });
-                    }
-                  }),
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/speakers_view'),
+                child: const Text(
+                  'Lista dos Palestrantes',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ],
         ),
