@@ -19,6 +19,9 @@ class _SpeakersViewState extends State<SpeakersView> {
   final _streamController = StreamController<List<dynamic>>();
   final _searchController = TextEditingController();
 
+  //O intuito de realizar o carregamento dos dados no initState, é evitar que a cada reload de tela os dados não sejam carregados novamente
+  // Já que o InitState só é chamado apenas uma vez
+  // E caso os dados na Api sejam alterados, a partir do StreamBuilder é possivel atualizar tela apenas onde os dados foram alterados
   @override
   void initState() {
     super.initState();
@@ -74,7 +77,6 @@ class _SpeakersViewState extends State<SpeakersView> {
                       );
                     } else {
                       final speakers = snapshot.data as List<SpeakersModel>;
-                      debugPrint('---------> SIZE: ${speakers.length}');
                       return _showData(speakers);
                     }
                   }),
@@ -104,6 +106,7 @@ class _SpeakersViewState extends State<SpeakersView> {
         });
   }
 
+  //Função para realizar a procura do palestrante digitado no campo de busca
   List<SpeakersModel> _searchData(List<SpeakersModel> speakers) {
     final List<SpeakersModel> searchResult = [];
     for (var speaker in speakers) {
@@ -120,25 +123,35 @@ class _SpeakersViewState extends State<SpeakersView> {
     return SizedBox(
       height: 80,
       child: Card(
-        child: Material(
-          borderRadius: BorderRadius.circular(8.0),
-          child: InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  isDismissible: false,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0)),
-                  ),
-                  builder: (context) {
-                    return SpeakersBottomSheet(speaker: speaker);
-                  });
-            },
-            child: ListTile(
-              title: Text(speaker.name!),
+        child: InkWell(
+          onTap: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                isDismissible: false,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0)),
+                ),
+                builder: (context) {
+                  return SpeakersBottomSheet(speaker: speaker);
+                });
+          },
+          child: ListTile(
+            title: Text(
+              speaker.name!,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(speaker.company!),
+            leading: Icon(
+              Icons.co_present_outlined,
+              size: 30.0,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            trailing: const Icon(
+              Icons.arrow_right_outlined,
+              size: 30.0,
             ),
           ),
         ),

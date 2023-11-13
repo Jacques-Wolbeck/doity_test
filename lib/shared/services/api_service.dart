@@ -9,9 +9,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
+  //Instância utlizando o padrão Singleton para a classe ApiService
   static final ApiService instance = ApiService._init();
   ApiService._init();
 
+  //Busca dados da API para cada endpoint e os converte em uma lista do tipo especificado.
   Future<List<T>> _fetchData<T>(
       EndpointsEnum dataType, T Function(Map<String, dynamic>) fromJson) async {
     var url = Uri.parse(dataType.url);

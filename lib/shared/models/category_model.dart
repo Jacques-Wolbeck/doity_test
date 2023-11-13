@@ -1,9 +1,9 @@
 class CategoryModel {
-  int id;
-  int order;
-  String description;
-  bool showEventSite;
-  bool showDoityPlay;
+  final int id;
+  final int order;
+  final String description;
+  final bool showEventSite;
+  final bool showDoityPlay;
 
   CategoryModel({
     required this.id,

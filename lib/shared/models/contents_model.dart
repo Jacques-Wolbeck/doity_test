@@ -1,10 +1,10 @@
 import 'package:doity_test/shared/models/notifications/app_details_model.dart';
 
 class ContentsModel {
-  int id;
-  String title;
-  String text;
-  AppDetailsModel appDetails;
+  final int id;
+  final String title;
+  final String text;
+  final AppDetailsModel appDetails;
 
   ContentsModel(
       {required this.id,

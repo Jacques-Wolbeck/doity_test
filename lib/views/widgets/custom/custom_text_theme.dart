@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+//Definição da fonte geral do App
 class CustomTextTheme extends TextTheme {
   CustomTextTheme()
       : super(

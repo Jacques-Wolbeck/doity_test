@@ -10,7 +10,7 @@ class BlockModel {
     if (block != null) {
       return BlockModel(
           id: block['id'],
-          name: block['name'],
+          name: block['nome'],
           order: block['order'],
           color: block['cor']);
     } else {

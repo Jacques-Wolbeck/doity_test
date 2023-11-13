@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Animação customizada para as transiçoes de tela do App
 class CustomPageRoute extends PageRouteBuilder {
   final Widget child;
 

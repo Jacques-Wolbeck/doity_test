@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Definição de estilo do titulo geral do App
 class AppTitle extends StatelessWidget {
   const AppTitle({super.key});
 

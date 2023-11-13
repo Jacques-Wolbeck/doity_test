@@ -1,3 +1,4 @@
+// Enums para facilitar o acesso aos Endpoints
 enum EndpointsEnum {
   speakers(
       url:

@@ -22,6 +22,8 @@ class ActivityModel {
       this.speakers,
       this.speakersList});
 
+  // Cria uma nova instância da classe ActivityModel a partir de um objeto JSON.
+  //Todos os outros 'models' seguem este padrão
   factory ActivityModel.fromJson(Map<String, dynamic> activity) {
     final id = activity['id'];
     final name = activity['nome'];

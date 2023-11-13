@@ -1,12 +1,12 @@
 import 'package:doity_test/shared/models/category_model.dart';
 
 class PartnersModel {
-  int id;
-  int order;
-  String description;
-  String url;
-  String image;
-  CategoryModel category;
+  final int id;
+  final int order;
+  final String description;
+  final String url;
+  final String image;
+  final CategoryModel category;
 
   PartnersModel({
     required this.id,

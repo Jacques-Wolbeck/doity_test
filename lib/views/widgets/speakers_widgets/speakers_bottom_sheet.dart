@@ -2,6 +2,8 @@ import 'package:doity_test/shared/models/speakers_model.dart';
 import 'package:doity_test/views/widgets/app_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
+import '../../../shared/utils/converters.dart';
+
 class SpeakersBottomSheet extends StatelessWidget {
   final SpeakersModel speaker;
   const SpeakersBottomSheet({super.key, required this.speaker});
@@ -36,9 +38,10 @@ class SpeakersBottomSheet extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _speakerImage(),
-                  const SizedBox(width: 8.0),
+                  const SizedBox(width: 4.0),
                   _speakerInformation(context)
                 ],
               ),
@@ -54,18 +57,15 @@ class SpeakersBottomSheet extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(8.0)),
       child: Image.network(
         speaker.image!,
-        height: 200,
+        height: 220,
         width: 150,
         fit: BoxFit.fill,
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return const SizedBox(
-            width: 70.0,
-            height: 70.0,
-            child: Padding(
-              padding: EdgeInsets.all(24.0),
-              child: AppProgressIndicator(),
-            ),
+            height: 220,
+            width: 150,
+            child: Center(child: AppProgressIndicator()),
           );
         },
         errorBuilder: ((context, error, stackTrace) {
@@ -78,31 +78,62 @@ class SpeakersBottomSheet extends StatelessWidget {
   Widget _speakerInformation(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * .5,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            speaker.name!,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .merge(TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          Row(
+      child: ListTile(
+        minVerticalPadding: 0,
+        title: Text(
+          speaker.name!,
+          softWrap: true,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .merge(const TextStyle(fontWeight: FontWeight.bold)),
+        ),
+        subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/images/company.png',
-                height: 25.0,
-                width: 25.0,
+              const SizedBox(height: 8.0),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/images/company.png',
+                    height: 25.0,
+                    width: 25.0,
+                  ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: Text(
+                      speaker.company!,
+                      softWrap: true,
+                    ),
+                  ),
+                ],
               ),
-              Text(speaker.company!),
-            ],
-          ),
-          Text(
-            speaker.description!,
-            softWrap: true,
-          )
-        ],
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.description_outlined),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                      child: Text(convertHtmlToString(speaker.description!))),
+                ],
+              ),
+              const Divider(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.subject_outlined),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: Text(
+                      speaker.activities!.map((e) => e.name).toString(),
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ),
+            ]),
       ),
     );
   }

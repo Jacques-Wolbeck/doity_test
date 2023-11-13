@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Circular progress indicator customizado para ser utlizado em todo App
 class AppProgressIndicator extends StatelessWidget {
   const AppProgressIndicator({Key? key}) : super(key: key);
 

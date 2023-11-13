@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         title: 'Doity Event',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
           textTheme: CustomTextTheme(),
         ),
         onGenerateRoute: (route) => onGenerateRoute(route),

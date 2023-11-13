@@ -55,7 +55,7 @@ class _PartnersPresentationState extends State<PartnersPresentation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * .1,
+      height: MediaQuery.of(context).size.height * .08,
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,

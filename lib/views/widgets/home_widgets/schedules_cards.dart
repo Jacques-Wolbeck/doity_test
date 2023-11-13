@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:doity_test/shared/models/schedules_model.dart';
 import 'package:doity_test/shared/services/api_service.dart';
 import 'package:doity_test/views/widgets/app_progress_indicator.dart';
+import 'package:doity_test/views/widgets/home_widgets/schedules_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class SchedulesCards extends StatefulWidget {
@@ -83,51 +84,68 @@ class _SchedulesCardsState extends State<SchedulesCards> {
   }
 
   Widget _schedulesListTile(SchedulesModel schedule) {
-    return SizedBox(
-      width: 300,
-      child: ListTile(
-        minVerticalPadding: 8.0,
-        title: Text(
-          schedule.activity!.name!,
-          maxLines: 2,
-          softWrap: true,
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall!
-              .merge(const TextStyle(fontWeight: FontWeight.bold)),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.location_on_outlined),
-                const SizedBox(width: 8.0),
-                Text(schedule.activity!.local!),
-              ],
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            isDismissible: false,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.0),
+                  topRight: Radius.circular(16.0)),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.calendar_month_outlined),
-                const SizedBox(width: 8.0),
-                Text(schedule.getDate(schedule.activityDate!)),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.schedule_outlined),
-                const SizedBox(width: 8.0),
-                Text(
-                    '${schedule.getTime(schedule.startTime!)}h às ${schedule.getTime(schedule.endTime!)}h'),
-              ],
-            )
-          ],
+            builder: (context) {
+              return SchedulesBottomSheet(schedule: schedule);
+            });
+      },
+      child: SizedBox(
+        width: 300,
+        child: ListTile(
+          minVerticalPadding: 8.0,
+          title: Text(
+            schedule.activity!.name!.toUpperCase(),
+            maxLines: 2,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .merge(const TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.location_on_outlined),
+                  const SizedBox(width: 8.0),
+                  Text(schedule.activity!.local!),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.calendar_month_outlined),
+                  const SizedBox(width: 8.0),
+                  Text(schedule.getDate(schedule.activityDate!)),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.schedule_outlined),
+                  const SizedBox(width: 8.0),
+                  Text(
+                      '${schedule.getTime(schedule.startTime!)}h às ${schedule.getTime(schedule.endTime!)}h'),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
